@@ -1,4 +1,4 @@
- //© Zero - Código libre no comercial
+//© Zero - Código libre no comercial
 
 
 // Cargar el SVG y animar los corazones
@@ -60,8 +60,18 @@ fetch('Img/treelove.svg')
   });
 
 // Efecto máquina de escribir para el texto de dedicatoria (seguidores)
-function showDedicationText() {
-  const text = `Para mi amor:\n\nGracias por estar siempre a mi lado,\npor tu sonrisa, tu apoyo y tu ternura.\nEres la razón de mi felicidad.\nTe amo con todo mi corazón.`;
+function getURLParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+function showDedicationText() { //seguidores
+  let text = getURLParam('text');
+  if (!text) {
+    text = `Para mi amor:\n\nGracias por estar siempre a mi lado,\npor tu sonrisa, tu apoyo y tu ternura.\nEres la razón de mi felicidad.\nTe amo con todo mi corazón.`;
+  } else {
+    text = decodeURIComponent(text).replace(/\\n/g, '\n');
+  }
   const container = document.getElementById('dedication-text');
   container.classList.add('typing');
   let i = 0;
@@ -80,8 +90,11 @@ function showDedicationText() {
 
 // Firma manuscrita animada
 function showSignature() {
-  const signature = document.getElementById('signature');
-  signature.textContent = "Con amor, Zero";
+  // Cambia para buscar la firma dentro del contenedor de dedicatoria
+  const dedication = document.getElementById('dedication-text');
+  const signature = dedication.querySelector('#signature');
+  let firma = getURLParam('firma');
+  signature.textContent = firma ? decodeURIComponent(firma) : "Con amor, Zero";
   signature.classList.add('visible');
 }
 
@@ -122,8 +135,10 @@ function startFloatingObjects() {
 // Cuenta regresiva o fecha especial
 function showCountdown() {
   const container = document.getElementById('countdown');
-  const startDate = new Date('2024-08-03T00:00:00'); // Cambia a tu fecha especial (seguidores)
-  const eventDate = new Date('2025-08-03T00:00:00'); // Próximo evento especial (seguidores)
+  let startParam = getURLParam('start');
+  let eventParam = getURLParam('event');
+  let startDate = startParam ? new Date(startParam + 'T00:00:00') : new Date('2024-08-03T00:00:00');
+  let eventDate = eventParam ? new Date(eventParam + 'T00:00:00') : new Date('2025-08-03T00:00:00');
 
   function update() {
     const now = new Date();

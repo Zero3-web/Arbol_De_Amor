@@ -70,9 +70,12 @@ body {
 .dedication-text {
   position: absolute;
   top: 50%;
-  left: 8%;
+  left: 3%;
+  right: auto;
   transform: translateY(-50%);
-  max-width: 320px;
+  min-width: 320px;
+  max-width: 600px;
+  width: 60rem;
   font-size: 1.5rem;
   color: #050505;
   font-family: 'Courier New', Courier, monospace;
@@ -80,6 +83,14 @@ body {
   z-index: 3;
   opacity: 0;
   pointer-events: none;
+  max-height: 90vh;
+  overflow: visible;
+  padding: 1em 1.5em 1em 1em;
+  background: rgba(255,255,255,0.92);
+  border-radius: 0.7em;
+  box-shadow: 0 2px 16px #e6002611;
+  /* Permite que la caja crezca en altura y ancho */
+  transition: max-width 0.4s, min-width 0.4s, width 0.4s;
 }
 
 .dedication-text.typing {
@@ -111,10 +122,14 @@ body {
 }
 
 .signature {
-  position: absolute;
-  top: 35rem;
-  left: 8%;
-  bottom: 7%;
+  /* Cambia posición absoluta a relativa y pon margen arriba */
+  position: relative;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  margin-top: 1.5em;
+  margin-left: 0;
+  display: block;
   font-family: 'Dancing Script', 'Pacifico', cursive, sans-serif;
   font-size: 2.2rem;
   color: #e60026;
@@ -160,4 +175,22 @@ body {
 .countdown.visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* Responsivo para móviles: la caja ocupa casi todo el ancho arriba del árbol */
+@media (max-width: 700px) {
+  .dedication-text {
+    left: 50%;
+    right: auto;
+    top: 8%;
+    transform: translateX(-50%) translateY(0);
+    min-width: 0;
+    max-width: 95vw;
+    width: 95vw;
+    font-size: 1.1rem;
+    padding: 0.7em 0.7em 0.7em 0.7em;
+  }
+  .signature {
+    font-size: 1.3rem;
+  }
 }
