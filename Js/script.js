@@ -172,7 +172,6 @@ function showCountdown() {
 function playBackgroundMusic() {
   const audio = document.getElementById('bg-music');
   if (!audio) return;
-  // Mostrar botón de control
   let btn = document.getElementById('music-btn');
   if (!btn) {
     btn = document.createElement('button');
@@ -190,10 +189,12 @@ function playBackgroundMusic() {
     btn.style.cursor = 'pointer';
     document.body.appendChild(btn);
   }
-  // Autoplay (algunos navegadores requieren interacción)
   audio.volume = 0.7;
   audio.loop = true;
-  audio.play().catch(() => {
+  // Intentar reproducir inmediatamente
+  audio.play().then(() => {
+    btn.textContent = '🔊 Música';
+  }).catch(() => {
     // Si falla el autoplay, esperar click en el botón
     btn.textContent = '▶️ Música';
   });
@@ -207,3 +208,8 @@ function playBackgroundMusic() {
     }
   };
 }
+
+// Intentar reproducir la música lo antes posible (al cargar la página)
+window.addEventListener('DOMContentLoaded', () => {
+  playBackgroundMusic();
+});
