@@ -45,6 +45,8 @@ fetch('Img/treelove.svg')
           startFloatingObjects();
           // Mostrar cuenta regresiva
           showCountdown();
+          // Iniciar música de fondo
+          playBackgroundMusic();
         }, 1200); //Tiempo para agrandar el SVG
       }, totalDuration);
     }, 50);
@@ -103,6 +105,8 @@ function showSignature() {
   signature.classList.add('visible');
 }
 
+
+
 // Controlador de objetos flotantes
 function startFloatingObjects() {
   const container = document.getElementById('floating-objects');
@@ -142,7 +146,7 @@ function showCountdown() {
   const container = document.getElementById('countdown');
   let startParam = getURLParam('start');
   let eventParam = getURLParam('event');
-  let startDate = startParam ? new Date(startParam + 'T00:00:00') : new Date('2024-08-03T00:00:00');
+  let startDate = startParam ? new Date(startParam + 'T00:00:00') : new Date('2024-08-03T00:00:00'); 
   let eventDate = eventParam ? new Date(eventParam + 'T00:00:00') : new Date('2025-08-03T00:00:00');
 
   function update() {
@@ -162,4 +166,44 @@ function showCountdown() {
   }
   update();
   setInterval(update, 1000);
+}
+
+// --- Música de fondo ---
+function playBackgroundMusic() {
+  const audio = document.getElementById('bg-music');
+  if (!audio) return;
+  // Mostrar botón de control
+  let btn = document.getElementById('music-btn');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.id = 'music-btn';
+    btn.textContent = '🔊 Música';
+    btn.style.position = 'fixed';
+    btn.style.bottom = '18px';
+    btn.style.right = '18px';
+    btn.style.zIndex = 99;
+    btn.style.background = 'rgba(255,255,255,0.85)';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '24px';
+    btn.style.padding = '10px 18px';
+    btn.style.fontSize = '1.1em';
+    btn.style.cursor = 'pointer';
+    document.body.appendChild(btn);
+  }
+  // Autoplay (algunos navegadores requieren interacción)
+  audio.volume = 0.7;
+  audio.loop = true;
+  audio.play().catch(() => {
+    // Si falla el autoplay, esperar click en el botón
+    btn.textContent = '▶️ Música';
+  });
+  btn.onclick = () => {
+    if (audio.paused) {
+      audio.play();
+      btn.textContent = '🔊 Música';
+    } else {
+      audio.pause();
+      btn.textContent = '🔈 Música';
+    }
+  };
 }
