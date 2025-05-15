@@ -68,8 +68,7 @@ function getURLParam(name) {
 function showDedicationText() { //seguidores
   let text = getURLParam('text');
   if (!text) {
-    text = `Para mi amor:\n\nGracias por estar siempre a mi lado,\npor tu sonrisa, tu apoyo y tu ternura.\nEres la razón de mi felicidad.\nTe amo con todo mi corazón.`;
-  } else {
+    text = `Para el amor de mi vida:\n\nDesde el primer momento supe que eras tú. Tu sonrisa, tu voz, tu forma de ser… todo en ti me hace sentir en casa.\n\nGracias por acompañarme en cada paso, por entenderme incluso en silencio, y por llenar mis días de amor.\n\nTe amo más de lo que las palabras pueden expresar. Eres mi razón, mi paz, mi todo.`;  } else {
     text = decodeURIComponent(text).replace(/\\n/g, '\n');
   }
   const container = document.getElementById('dedication-text');
@@ -92,7 +91,13 @@ function showDedicationText() { //seguidores
 function showSignature() {
   // Cambia para buscar la firma dentro del contenedor de dedicatoria
   const dedication = document.getElementById('dedication-text');
-  const signature = dedication.querySelector('#signature');
+  let signature = dedication.querySelector('#signature');
+  if (!signature) {
+    signature = document.createElement('div');
+    signature.id = 'signature';
+    signature.className = 'signature';
+    dedication.appendChild(signature);
+  }
   let firma = getURLParam('firma');
   signature.textContent = firma ? decodeURIComponent(firma) : "Con amor, Zero";
   signature.classList.add('visible');
